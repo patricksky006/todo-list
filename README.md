@@ -17,7 +17,7 @@
 * 和刪除(delete)Todo列表
 
 ## WireFrame
-![image]([https://github.com/patricksky006/restaurant-list/blob/main/20230801%20homework-1.png](https://github.com/patricksky006/todo-list/blob/241d016694548ca808cd033feb94bbf07232e417/PrintScreen/Wireframe.png))
+![image](https://github.com/patricksky006/todo-list/blob/241d016694548ca808cd033feb94bbf07232e417/PrintScreen/Wireframe.png)
 
 
 ## 啟動專案 
