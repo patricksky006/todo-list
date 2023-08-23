@@ -3,7 +3,7 @@
 ## 介紹
 
 - 這是一個網頁程式結合SQL資料庫應用練習專案-實踐CRUD功能
-- 其專案為一個可以新增(create)、瀏覽(Read)、更新(update)和刪除(delete)的功能
+- 其專案為一個可以新增(create)、瀏覽(Read)、更新(update)和刪除(delete) todo清單的功能
 
 ## 動機
 - 學習成為一個前後端的網頁工程師
@@ -15,9 +15,6 @@
 * 瀏覽(Read)Todo列表
 * 更新(update)Todo列表
 * 和刪除(delete)Todo列表
-
-## WireFrame
-![image](https://github.com/patricksky006/todo-list/blob/241d016694548ca808cd033feb94bbf07232e417/PrintScreen/Wireframe.png)
 
 
 ## 啟動專案 
@@ -59,3 +56,15 @@ ctrl + c
 * mysql2 3.2.0
 * sequelize 6.30.0
 * sequelize-cli 6.6.0
+
+## WireFrame
+![image](https://github.com/patricksky006/todo-list/blob/241d016694548ca808cd033feb94bbf07232e417/PrintScreen/Wireframe.png)
+
+## User Flow
+![image](https://github.com/patricksky006/todo-list/blob/241d016694548ca808cd033feb94bbf07232e417/PrintScreen/User Flow.png)
+
+## Design router
+![image](https://github.com/patricksky006/todo-list/blob/241d016694548ca808cd033feb94bbf07232e417/PrintScreen/Design router.png)
+
+## 實際畫面
+![image](https://github.com/patricksky006/todo-list/blob/241d016694548ca808cd033feb94bbf07232e417/PrintScreen/view.png)
