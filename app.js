@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.get('/', (req,res) => {
-  res.render('index') //首頁
+  res.redirect('todos') 
 })
 
 app.get('/todos', (req, res) => {
