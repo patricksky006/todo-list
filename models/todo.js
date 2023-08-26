@@ -14,7 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Todo.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    isComplete: {
+        type: DataTypes.BOOLEAN, 
+        defaultValue: false, //讓新舊資料預設為false
+        allowNull: false //資料不可為空白
+    }
   }, {
     sequelize,
     modelName: 'Todo',
