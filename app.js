@@ -5,12 +5,13 @@ const app = express()
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const router = require('./routes') // 引用路由器，index.js可以不寫，預設require會找index
+const messageHandler = require('./middlewares/message-handler')
+const errorHandler = require('./middlewares/error-handler')
 const port = 3000
 
-
-app.engine('.hbs', engine({ extname: '.hbs' }));
-app.set('view engine', '.hbs');
-app.set('views', './views');
+app.engine('.hbs', engine({ extname: '.hbs' }))
+app.set('view engine', '.hbs')
+app.set('views', './views')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(session({
@@ -19,8 +20,11 @@ app.use(session({
   saveUninitialized: false
 }))
 app.use(flash())
-app.use(router) //將 request 導入路由器
+
+app.use(messageHandler)
+app.use(router) // 將 request 導入路由器
+app.use(errorHandler)
 
 app.listen(port, () => {
-  console.log(`App is running on http://localhost:${port}`) //監聽伺服器
+  console.log(`App is running on http://localhost:${port}`) // 監聽伺服器
 })
