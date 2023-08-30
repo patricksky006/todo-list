@@ -2,6 +2,12 @@ const express = require('express')
 const flash = require('connect-flash')
 const session = require('express-session')
 const app = express()
+
+if(process.env.NODE_ENV === 'development') {
+    require('dotenv').config()
+}
+console.log(process.env.SESSION_SECRET) 
+
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const router = require('./routes') // 引用路由器，index.js可以不寫，預設require會找index
@@ -15,7 +21,7 @@ app.set('views', './views')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(session({
-  secret: 'ThisIsSecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }))
