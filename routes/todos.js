@@ -7,11 +7,18 @@ const db = require('../models')
 const Todo = db.Todo
 
 router.get('/', (req, res) => {
+  const page = parseInt(req.query.page) || 1 //parseInt: 將字串轉換為整數數值
+  const limit = 10
   return Todo.findAll({
     attributes: ['id', 'name', 'isComplete'],
     raw: true
   })
-    .then((todos) => res.render('todos', { todos })) // 顯示todo清單的頁面
+    .then((todos) => res.render('todos', { 
+        todos: todos.slice((page-1) * limit, page * limit),
+        prev: page > 1 ? page -1 : page,
+        next: page + 1,
+        page
+      })) // 顯示todo清單的頁面
     .catch((error) => {
       error.errorMessage = '資料取得失敗:('
 			    next(error)
