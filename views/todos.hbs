@@ -1,4 +1,5 @@
 {{> message}}
+{{> navbar}}
 <div>
   <a href="/todos/new">Create</a>
 </div>
@@ -19,10 +20,10 @@
 
 <form action="/todos" method="GET" style="display: inline;">
   <input type="hidden" name="page" value="{{prev}}">
-  <button type="'submit">prev</button>
+  <button type="submit">prev</button>
 </form>
 <form action="/todos" method="GET" style="display: inline;">
   <input type="hidden" name="page" value="{{next}}">
-  <button type="'submit">next</button>
+  <button type="submit">next</button>
 </form>
 <span> page: {{page}}</span>
