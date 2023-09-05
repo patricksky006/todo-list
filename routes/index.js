@@ -2,6 +2,35 @@
 const express = require('express') // 引用 Express
 const router = express.Router() // 引用Express 路由器
 
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+
+const db = require('../models')
+const user = db.user
+
+passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, done) => {
+  return user.findOne({
+		attributes: ['id', 'name', 'email', 'password'],
+		where: { email: username },
+		raw: true
+	})
+    .then((user) => {
+			if (!user || user.password !== password) {
+				return done(null, false, { message: 'email 或密碼錯誤' })
+			}
+			return done(null, user)
+		})
+		.catch((error) => {
+			error.errorMessage = '登入失敗'
+			done(error)
+		})
+}))
+
+passport.serializeUser((user, done) => {
+	const { id, name, email } = user
+	return done(null, { id, name, email })
+})
+
 const todos = require('./todos') // 宣告todos為引用todos.js
 const users = require('./users') // 宣告users為引用users.js
 
@@ -22,9 +51,11 @@ router.get('/login', (req, res, next) => {
   res.render('login')
 })
 
-router.post('/login', (req, res, next) => {
-  res.send('hello, post-login finished')
-})
+router.post('/login', passport.authenticate('local', {
+	successRedirect: '/todos',
+	failureRedirect: '/login',
+	failureFlash: true
+}))
 
 router.post('/logout', (req, res, next) => {
   res.send('hello, post-users logout finished')

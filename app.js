@@ -2,6 +2,7 @@ const express = require('express')
 const flash = require('connect-flash')
 const session = require('express-session')
 const app = express()
+const passport = require('passport')
 
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config()
@@ -26,7 +27,7 @@ app.use(session({
   saveUninitialized: false
 }))
 app.use(flash())
-
+app.use(passport.initialize())
 app.use(messageHandler)
 app.use(router) // 將 request 導入路由器
 app.use(errorHandler)
