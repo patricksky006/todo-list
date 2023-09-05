@@ -6,24 +6,8 @@ const router = express.Router()
 const db = require('../models')
 const user = db.user
 
-router.get('/register', (req, res, next) =>{
-  res.render('register')
-})
-
-router.get('/login', (req, res, next) =>{
-  res.render('login')
-})
-
-router.post('/users', (req, res, next) =>{
-  res.send('hello, post-users')
-})
-
-router.post('/login', (req, res, next) =>{
-  res.send('hello, post-login')
-})
-
-router.post('/logout', (req, res, next) =>{
-  res.send('hello, post-users')
+router.post('/', (req, res, next) =>{
+  res.send('hello, post-users register finished')
 })
 
 module.exports = router
