@@ -14,19 +14,19 @@ router.get('/', (req, res) => {
   res.render('index')
 })
 
-router.get('/register', (req, res, next) =>{
+router.get('/register', (req, res, next) => {
   res.render('register')
 })
 
-router.get('/login', (req, res, next) =>{
+router.get('/login', (req, res, next) => {
   res.render('login')
 })
 
-router.post('/login', (req, res, next) =>{
+router.post('/login', (req, res, next) => {
   res.send('hello, post-login finished')
 })
 
-router.post('/logout', (req, res, next) =>{
+router.post('/logout', (req, res, next) => {
   res.send('hello, post-users logout finished')
 })
 module.exports = router // 匯出路由器
