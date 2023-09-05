@@ -8,8 +8,6 @@ const user = db.user
 
 router.post('/', (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body
-  console.log('recive data:', name, email, password, confirmPassword)
-
   if (!email || !password) {
     req.flash('error', 'email 及 password 為必填')
     return res.redirect('back')
