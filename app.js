@@ -2,7 +2,6 @@ const express = require('express')
 const flash = require('connect-flash')
 const session = require('express-session')
 const app = express()
-const passport = require('passport')
 
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config()
@@ -12,6 +11,7 @@ console.log(process.env.SESSION_SECRET)
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const router = require('./routes') // 引用路由器，index.js可以不寫，預設require會找index
+const passport = require('./config/passport')
 const messageHandler = require('./middlewares/message-handler')
 const errorHandler = require('./middlewares/error-handler')
 const port = 3000
