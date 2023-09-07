@@ -2,6 +2,7 @@
 
 const express = require('express')
 const router = express.Router()
+const bcrypt = require('bcryptjs')
 
 const db = require('../models')
 const user = db.user
@@ -25,7 +26,9 @@ router.post('/', (req, res, next) => {
         return res.redirect('back')
       }
 
-      return user.create({ name, email, password })
+      return bcrypt.hash(password, 10)
+        .then((hash) => user.create({ name, email, password: hash }))
+    })
         .then((user) => {
           if (!user) {
             return res.redirect('back')
@@ -39,6 +42,6 @@ router.post('/', (req, res, next) => {
           next(error)
         })
     })
-})
+
 
 module.exports = router

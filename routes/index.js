@@ -1,6 +1,7 @@
 // 此檔案為總路由器
 const express = require('express') // 引用 Express
 const router = express.Router() // 引用Express 路由器
+const bcrypt = require('bcryptjs')
 
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
@@ -15,10 +16,16 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, 
 		raw: true
 	})
     .then((user) => {
-			if (!user || user.password !== password) {
-				return done(null, false, { message: 'email 或密碼錯誤' })
+			if (!user ) {
+				return done(null, false, { message: '使用者不存在' })
 			}
-			return done(null, user)
+			return bcrypt.compare(password, user.password)
+				.then((isMatch) => {
+					if (!isMatch) {
+						return done(null, false, { message: 'email 或密碼錯誤' })
+					}
+					return done(null, user)
+				})
 		})
 		.catch((error) => {
 			error.errorMessage = '登入失敗'
