@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
+const FacebookStrategy = require('passport-facebook')
 
 const db = require('../models')
 const user = db.user
@@ -31,6 +32,49 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, 
 			error.errorMessage = '登入失敗'
 			done(error)
 		})
+}))
+
+passport.use(new FacebookStrategy({
+	clientID: process.env.FACEBOOK_CLIENT_ID, //機密資料，所以須設定為環境變數
+  clientSecret: process.env.FACEBOOK_CLIENT_SECRET, //機密資料，所以須設定為環境變數
+  callbackURL: process.env.FACEBOOK_CALLBACK_URL, //機密資料，所以須設定為環境變數
+	profileFields: ['id', 'displayName', 'email']
+},(accessToken, refreshToken, profile, done) => {
+	const email = profile.emails[0].value
+	const name = profile.displayName
+
+	return user.findOne({
+    attributes: ['id', 'name', 'email'],
+    where: { email },
+    raw: true
+})
+.then((foundUser) => {
+    if (foundUser) {
+        return done(null, foundUser);
+    } else {
+        const randomPwd = Math.random().toString(36).slice(-8);
+        return bcrypt.hash(randomPwd, 10)
+            .then((hash) => {
+                user.create({ name, email, password: hash })
+                    .then((createdUser) => {
+                        done(null, { id: createdUser.id, name: createdUser.name, email: createdUser.email });
+                    })
+                    .catch((error) => {
+                        error.errorMessage = '註冊失敗';
+                        done(error);
+                    });
+            })
+            .catch((error) => {
+                error.errorMessage = '密碼雜湊錯誤';
+                done(error);
+            });
+    }
+})
+.catch((error) => {
+    error.errorMessage = '查找用戶錯誤';
+    done(error);
+});
+
 }))
 
 passport.serializeUser((user, done) => {
@@ -64,6 +108,14 @@ router.get('/login', (req, res, next) => {
 })
 
 router.post('/login', passport.authenticate('local', {
+	successRedirect: '/todos',
+	failureRedirect: '/login',
+	failureFlash: true
+}))
+
+router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] })) //當使用者訪問該路徑時，Passport 將觸發 Facebook 策略的身份驗證流程，並請求取得使用者的資訊授權。
+
+router.get('/oauth2/redirect/facebook', passport.authenticate('facebook', {  //在處理 Facebook 登入成功後的重新定向，若驗證成功或失敗就導到相對應頁面。
 	successRedirect: '/todos',
 	failureRedirect: '/login',
 	failureFlash: true
